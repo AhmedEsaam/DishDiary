@@ -17,7 +17,7 @@ public class DashboardViewModel extends ViewModel {
         return mText;
     }
 
-    public void setLiveText(String data) {
+    public void setText(String data) {
         mText.setValue(data);
     }
 }

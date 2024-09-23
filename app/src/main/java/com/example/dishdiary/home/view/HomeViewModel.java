@@ -1,4 +1,4 @@
-package com.example.dishdiary.ui.home;
+package com.example.dishdiary.home.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -8,11 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dishdiary.databinding.FragmentDashboardBinding;
-import com.example.dishdiary.ui.home.HomeViewModel;
 
 public class DashboardFragment extends Fragment {
 
@@ -28,8 +26,6 @@ public class DashboardFragment extends Fragment {
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-
 
         return root;
     }

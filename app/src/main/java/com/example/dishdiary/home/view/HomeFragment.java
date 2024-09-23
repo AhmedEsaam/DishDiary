@@ -1,4 +1,4 @@
-package com.example.dishdiary.ui.home;
+package com.example.dishdiary.home.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dishdiary.databinding.FragmentHomeBinding;
+import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.ui.dashboard.DashboardViewModel;
 
-public class HomeFragment extends Fragment {
+import java.util.List;
+
+public class HomeFragment extends Fragment implements HomeView{
 
     private FragmentHomeBinding binding;
 
@@ -34,12 +37,7 @@ public class HomeFragment extends Fragment {
         DashboardViewModel dashboardViewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
 
         final Button btn = binding.btn;
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dashboardViewModel.setLiveText(txtDash.getText().toString());
-            }
-        });
+        btn.setOnClickListener(view -> dashboardViewModel.setText(txtDash.getText().toString()));
 
         return root;
     }
@@ -48,5 +46,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void showData(List<Meal> meals) {
+
+    }
+
+    @Override
+    public void showErrMsg(String error) {
+
     }
 }

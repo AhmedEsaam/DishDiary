@@ -20,6 +20,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeView{
 
+
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,16 +29,15 @@ public class HomeFragment extends Fragment implements HomeView{
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        final EditText txtDash = binding.txtDash;
+//        final TextView textView = binding.textHome;
 
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         ///
         DashboardViewModel dashboardViewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
 
-        final Button btn = binding.btn;
-        btn.setOnClickListener(view -> dashboardViewModel.setText(txtDash.getText().toString()));
+//        final Button btn = binding.btn;
+//        btn.setOnClickListener(view -> dashboardViewModel.setText(txtDash.getText().toString()));
 
         return root;
     }

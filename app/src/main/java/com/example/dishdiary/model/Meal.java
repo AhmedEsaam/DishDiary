@@ -25,6 +25,7 @@ public class Meal {
         return isFav;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return strMeal;

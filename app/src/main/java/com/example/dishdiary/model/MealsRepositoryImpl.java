@@ -18,6 +18,8 @@ public class MealsRepositoryImpl implements MealsRepository {
         if(repo == null) {
             repo = new MealsRepositoryImpl(remoteDataSource, localDataSource);
         }
+//        localDataSource.deleteAllJunctions();
+//        localDataSource.deleteAllDays();
         return repo;
     }
 
@@ -27,12 +29,12 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
-    public LiveData<List<Meal>> getStoredMeals() { return localDataSource.getStoredMeals(); }
-
-    @Override
     public void getAllMeals(NetworkCallback networkCallback) {
         remoteDataSource.makeNetworkCall(networkCallback);
     }
+
+    @Override
+    public LiveData<List<Meal>> getStoredMeals() { return localDataSource.getStoredMeals(); }
 
     @Override
     public void insertMeal(Meal meal) { localDataSource.insertMeal(meal); }
@@ -42,4 +44,25 @@ public class MealsRepositoryImpl implements MealsRepository {
 
     @Override
     public void checkMealExists(Meal meal) { localDataSource.checkMealExists(meal); }
+
+    @Override
+    public void insertDay(Day day) { localDataSource.insertDay(day); }
+
+    @Override
+    public void deleteDay(Day day) { localDataSource.deleteDay(day); }
+
+    @Override
+    public void insertDayMealEntry(DayMealJunction dayMealJunction) {
+        localDataSource.insertDayMealEntry(dayMealJunction);
+    }
+
+    @Override
+    public LiveData<List<Meal>> getMealsOfDay(Day day) {
+        return localDataSource.getMealsOfDay(day);
+    }
+
+    @Override
+    public Day getSun() {
+        return null;
+    }
 }

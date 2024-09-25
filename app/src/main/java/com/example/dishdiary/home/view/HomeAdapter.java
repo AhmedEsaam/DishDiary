@@ -27,8 +27,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerView";
 
-    public HomeAdapter(Context context, OnHomeClickListener listener) {
+    public HomeAdapter(Context context, List<Meal> values, OnHomeClickListener listener) {
         this.context = context;
+        this.values = values;
         this.listener = listener;
     }
 

@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.dishdiary.model.MealsResponse;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,8 +36,8 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     }
 
     @Override
-    public void makeNetworkCall(NetworkCallback networkCallback) {
-        mealService.getMealResponse().enqueue(new Callback<MealsResponse>() {
+    public void makeNetworkCall(NetworkCallback networkCallback, String endPoint, Map<String, String> queryParams) {
+        mealService.getMealResponse(endPoint, queryParams).enqueue(new Callback<MealsResponse>() {
             @Override
             public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
                 Log.i(TAG, "OnResponse..." + response.body().getMeals());

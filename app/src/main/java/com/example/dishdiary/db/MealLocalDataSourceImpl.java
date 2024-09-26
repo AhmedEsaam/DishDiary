@@ -42,13 +42,13 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
             MealLocalDataSource = new MealLocalDataSourceImpl(context);
 
             // Add days of the week
-            MealLocalDataSource.insertDay(sat);
-            MealLocalDataSource.insertDay(sun);
-            MealLocalDataSource.insertDay(mon);
-            MealLocalDataSource.insertDay(tue);
-            MealLocalDataSource.insertDay(wed);
-            MealLocalDataSource.insertDay(thu);
-            MealLocalDataSource.insertDay(fri);
+//            MealLocalDataSource.insertDay(sat);
+//            MealLocalDataSource.insertDay(sun);
+//            MealLocalDataSource.insertDay(mon);
+//            MealLocalDataSource.insertDay(tue);
+//            MealLocalDataSource.insertDay(wed);
+//            MealLocalDataSource.insertDay(thu);
+//            MealLocalDataSource.insertDay(fri);
         }
         return MealLocalDataSource;
     }

@@ -1,4 +1,4 @@
-package com.example.dishdiary.home.controller;
+package com.example.dishdiary.meal_list.presenter;
 
 import androidx.lifecycle.LiveData;
 
@@ -7,7 +7,7 @@ import com.example.dishdiary.model.Meal;
 
 import java.util.List;
 
-public interface HomePresenter {
+public interface MealListPresenter {
     public void getAllMeals();
     public void addToFav(Meal meal);
     public void getRandomMeal();

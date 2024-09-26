@@ -1,15 +1,13 @@
-package com.example.dishdiary.home.controller;
+package com.example.dishdiary.home.presenter;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdiary.home.view.HomeView;
 import com.example.dishdiary.model.Day;
-import com.example.dishdiary.model.DayMealJunction;
 import com.example.dishdiary.model.MealsRepository;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.network.NetworkCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomePresenterImpl implements HomePresenter, NetworkCallback {
@@ -26,6 +24,8 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
     public void getAllMeals() { _repo.getAllMeals(this); }
 //    public void getAllMeals() { _view.showData(_repo.getMealsOfDay(sun).getValue()); }
 
+
+
     @Override
     public void addToFav(Meal Meal) {
         Meal.setFav(true);
@@ -33,20 +33,18 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
     }
 
     @Override
-    public void onSuccessResult(List<Meal> Meals) {
-        for(Meal Meal : Meals) {
+    public void onSuccessResult(List<Meal> meals) {
+        for(Meal Meal : meals) {
             _repo.checkMealExists(Meal);
         }
-        _view.showData(Meals);
+        _view.showData(meals);
     }
 
     @Override
     public void onFailureResult(String errorMsg) { _view.showErrMsg(errorMsg); }
 
     @Override
-    public void getRandomMeal() {
-
-    }
+    public void getRandomMeal() { _repo.getRandomMeal(this); }
 
     // test
     public void addMealToSunday(Meal meal) {

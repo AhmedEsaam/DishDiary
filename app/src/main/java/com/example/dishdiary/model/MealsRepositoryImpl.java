@@ -7,7 +7,9 @@ import com.example.dishdiary.db.MealLocalDataSource;
 import com.example.dishdiary.network.NetworkCallback;
 import com.example.dishdiary.network.MealRemoteDataSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MealsRepositoryImpl implements MealsRepository {
     MealRemoteDataSource remoteDataSource;
@@ -30,7 +32,16 @@ public class MealsRepositoryImpl implements MealsRepository {
 
     @Override
     public void getAllMeals(NetworkCallback networkCallback) {
-        remoteDataSource.makeNetworkCall(networkCallback);
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("s", "Ara");
+        remoteDataSource.makeNetworkCall(networkCallback, "search.php", queryParams);
+    }
+
+    @Override
+    public void getRandomMeal(NetworkCallback networkCallback) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("s", "a");
+        remoteDataSource.makeNetworkCall(networkCallback, "random.php", queryParams);
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.util.List;
 public interface MealsRepository {
     // Remote Data Source
     public void getAllMeals(NetworkCallback networkCallback);
+    public void getRandomMeal(NetworkCallback networkCallback);
 
     // Local Data Source - Meals
     public LiveData<List<Meal>> getStoredMeals();

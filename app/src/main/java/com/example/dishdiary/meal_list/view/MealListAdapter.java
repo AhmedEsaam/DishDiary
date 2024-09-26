@@ -1,4 +1,4 @@
-package com.example.dishdiary.home.view;
+package com.example.dishdiary.meal_list.view;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,20 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
-import java.util.List;
-
 import com.example.dishdiary.R;
 import com.example.dishdiary.model.Meal;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+import java.util.List;
+
+public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHolder> {
     private final Context context;
-    private final OnHomeClickListener listener;
+    private final OnMealListClickListener listener;
     private List<Meal> values;
 
     private static final String TAG = "RecyclerView";
 
-    public HomeAdapter(Context context, List<Meal> values, OnHomeClickListener listener) {
+    public MealListAdapter(Context context, List<Meal> values, OnMealListClickListener listener) {
         this.context = context;
         this.values = values;
         this.listener = listener;
@@ -56,16 +55,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(recyclerView.getContext());
-        View v = inflater.inflate(R.layout.home_meal, recyclerView, false);
+        View v = inflater.inflate(R.layout.card_meal, recyclerView, false);
         ViewHolder vh = new ViewHolder(v);
         Log.i(TAG, "===== ViewHolder Created ====");
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meal meal = values.get(position);
 
         Glide.with(context).load(meal.getStrMealThumb())

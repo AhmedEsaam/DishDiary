@@ -1,4 +1,4 @@
-package com.example.dishdiary.meal_list.view;
+package com.example.dishdiary.favourites.view;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,14 +19,14 @@ import com.example.dishdiary.model.Meal;
 
 import java.util.List;
 
-public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHolder> {
+public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
     private final Context context;
-    private final OnMealListClickListener listener;
+    private final OnFavouritesClickListener listener;
     private List<Meal> values;
 
-    private static final String TAG = "RecyclerView";
+    private static final String TAG = "FavRecyclerView";
 
-    public MealListAdapter(Context context, List<Meal> values, OnMealListClickListener listener) {
+    public FavouritesAdapter(Context context, List<Meal> values, OnFavouritesClickListener listener) {
         this.context = context;
         this.values = values;
         this.listener = listener;
@@ -39,7 +39,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imgView;
         private final TextView txtName, txtCategory, txtArea;
-        private final Button btnAddToFav;
+        private final Button btnRemoveFromFav;
         private final View layout;
 
         public ViewHolder(@NonNull View v) {
@@ -49,7 +49,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHo
             txtCategory = v.findViewById(R.id.txtCategory);
             txtArea = v.findViewById(R.id.txtArea);
             imgView = v.findViewById(R.id.imgView);
-            btnAddToFav = v.findViewById(R.id.btnAddToFav);
+            btnRemoveFromFav = v.findViewById(R.id.btnAddToFav);
         }
     }
 
@@ -66,7 +66,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meal meal = values.get(position);
-
+        
 
         Glide.with(context).load(meal.getStrMealThumb())
                 .apply(new RequestOptions().override(200, 200)
@@ -77,7 +77,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHo
         holder.txtName.setText(meal.getStrMeal());
         holder.txtCategory.setText(meal.getStrCategory());
         holder.txtArea.setText(meal.getStrArea());
-        holder.btnAddToFav.setEnabled(!meal.isFav());
+        holder.btnRemoveFromFav.setText("-");
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,10 +87,10 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHo
         });
 
 
-        holder.btnAddToFav.setOnClickListener(new View.OnClickListener() {
+        holder.btnRemoveFromFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onAddToFavClick(meal);
+                listener.onRemoveFromFavClick(meal);
             }
         });
 

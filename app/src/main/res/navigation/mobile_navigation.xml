@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_saved"
-        android:name="com.example.dishdiary.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.example.dishdiary.favourites.view.FavouritesFragment"
+        android:label="@string/title_favourites"
+        tools:layout="@layout/fragment_saved" />
     <fragment
         android:id="@+id/navigation_meallist"
         android:name="com.example.dishdiary.meal_list.view.MealListFragment"

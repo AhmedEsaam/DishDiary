@@ -29,6 +29,8 @@ import java.util.List;
 
 public class MealListFragment extends Fragment implements OnMealListClickListener, MealListView {
 
+    private FragmentMeallistBinding binding;
+
     private static final String TAG = "MealListFragment";
 
     // Presenter
@@ -38,8 +40,6 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
     private RecyclerView recyclerView;
     private MealListAdapter mealListAdapter;
     private LinearLayoutManager layoutManager;
-
-    private FragmentMeallistBinding binding;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

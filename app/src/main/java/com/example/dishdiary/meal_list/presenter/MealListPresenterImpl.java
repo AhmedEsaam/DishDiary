@@ -26,25 +26,32 @@ public class MealListPresenterImpl implements MealListPresenter, NetworkCallback
 //    public void getAllMeals() { _view.showData(_repo.getMealsOfDay(sun).getValue()); }
 
     @Override
-    public void addToFav(Meal Meal) {
-        Meal.setFav(true);
-        _repo.insertMeal(Meal);
+    public void addToFav(Meal meal) {
+        meal.setFav(true);
+        _repo.insertMeal(meal);
     }
 
     @Override
-    public void onSuccessResult(List<Meal> Meals) {
-        for(Meal Meal : Meals) {
-            _repo.checkMealExists(Meal);
+    public void onSuccessResult(List<Meal> meals) {
+        for(Meal meal : meals) {
+            _repo.checkMealExists(meal);
         }
-        _view.showData(Meals);
+        _view.showData(meals);
     }
 
     @Override
     public void onFailureResult(String errorMsg) { _view.showErrMsg(errorMsg); }
 
+
+
     @Override
     public void getRandomMeal() {
 
+    }
+
+    @Override
+    public void isMealExists(Meal meal) {
+        _repo.checkMealExists(meal);
     }
 
     // test

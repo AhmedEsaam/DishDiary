@@ -1,14 +1,14 @@
-package com.example.dishdiary.ui.notifications;
+package com.example.dishdiary.favourites.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class FavouritesViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public FavouritesViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }

@@ -11,6 +11,7 @@ public interface MealListPresenter {
     public void getAllMeals();
     public void addToFav(Meal meal);
     public void getRandomMeal();
+    public void isMealExists(Meal meal);
 
     //test
     public void addMealToSunday(Meal meal);

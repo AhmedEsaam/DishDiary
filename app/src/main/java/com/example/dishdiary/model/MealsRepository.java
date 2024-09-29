@@ -2,7 +2,7 @@ package com.example.dishdiary.model;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.dishdiary.network.NetworkCallback;
+import com.example.dishdiary.datasources.network.NetworkCallback;
 
 import java.util.List;
 

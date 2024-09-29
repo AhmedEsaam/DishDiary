@@ -5,7 +5,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".meal_list.view.MealListFragment" >
+    tools:context=".features.meal_list.view.MealListFragment" >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycViewMealList"

@@ -2,7 +2,7 @@ package com.example.dishdiary;
 
 import android.os.Bundle;
 
-import com.example.dishdiary.home.view.HomeFragment;
+import com.example.dishdiary.features.home.view.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.EdgeToEdge;

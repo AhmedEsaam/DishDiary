@@ -6,7 +6,7 @@
     tools:showIn="@layout/activity_meal_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".meal_details.view.MealDetailsActivity">
+    tools:context=".features.meal_details.view.MealDetailsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="840dp"

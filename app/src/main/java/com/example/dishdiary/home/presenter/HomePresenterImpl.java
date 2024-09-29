@@ -27,9 +27,9 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
 
 
     @Override
-    public void addToFav(Meal Meal) {
-        Meal.setFav(true);
-        _repo.insertMeal(Meal);
+    public void addToFav(Meal meal) {
+        meal.setFav(true);
+        _repo.insertMeal(meal);
     }
 
     @Override

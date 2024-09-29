@@ -69,7 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         Meal meal = values.get(position);
 
         Glide.with(context).load(meal.getStrMealThumb())
-                .apply(new RequestOptions().override(200, 200)
+                .apply(new RequestOptions()//.override(200, 200)
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .error(R.drawable.ic_launcher_foreground))
                 .into(holder.imgView);
@@ -91,6 +91,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 listener.onAddToFavClick(meal);
+//                listener.openDetails();
             }
         });
 

@@ -1,13 +1,11 @@
 package com.example.dishdiary.home.view;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,10 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dishdiary.R;
+import com.example.dishdiary.meal_details.view.MealDetailsActivity;
 import com.example.dishdiary.databinding.FragmentHomeBinding;
 import com.example.dishdiary.home.presenter.HomePresenter;
-import com.example.dishdiary.meal_list.view.MealListAdapter;
 import com.example.dishdiary.model.Meal;
 
 import java.util.List;
@@ -105,11 +102,21 @@ public class HomeFragment extends Fragment implements OnHomeClickListener, HomeV
 
     @Override
     public void onLayoutClick(Meal meal) {
-        Toast.makeText(this.getContext(), meal.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this.getContext(), meal.toString(), Toast.LENGTH_SHORT).show();
+        Intent outIntent = new Intent(getActivity(), MealDetailsActivity.class);
+        outIntent.putExtra("mealDetails", meal);
+        startActivity(outIntent);
     }
 
     @Override
     public void onAddToFavClick(Meal meal) {
         homePresenter.addToFav(meal);
+    }
+
+    @Override
+    public void openDetails() {
+        Intent outIntent = new Intent(getActivity(), MealDetailsActivity.class);
+        outIntent.putExtra("data", "hi from home");
+        startActivity(outIntent);
     }
 }

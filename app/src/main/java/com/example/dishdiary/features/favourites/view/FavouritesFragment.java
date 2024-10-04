@@ -1,7 +1,10 @@
 package com.example.dishdiary.features.favourites.view;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +23,13 @@ import com.example.dishdiary.databinding.FragmentSavedBinding;
 import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
 import com.example.dishdiary.features.favourites.presenter.FavouritesPresenter;
 import com.example.dishdiary.features.favourites.presenter.FavouritesPresenterImpl;
+import com.example.dishdiary.features.meal_details.view.MealDetailsActivity;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FavouritesFragment extends Fragment implements OnFavouritesClickListener, FavouritesView {
@@ -109,13 +115,43 @@ public class FavouritesFragment extends Fragment implements OnFavouritesClickLis
 
     @Override
     public void onLayoutClick(Meal meal) {
-        Toast.makeText(this.getContext(), meal.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this.getContext(), meal.toString(), Toast.LENGTH_SHORT).show();
+        Intent outIntent = new Intent(getActivity(), MealDetailsActivity.class);
+        outIntent.putExtra("mealDetails", meal);
+        startActivity(outIntent);
     }
 
     @Override
     public void onRemoveFromFavClick(Meal meal) {
         favouritesPresenter.removeFromFav(meal);
         favouritesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAddToCalendar(Meal meal) {
+        Calendar calendar;
+        calendar = Calendar.getInstance();
+
+        // Get the current date
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        final String[] date = new String[1];
+
+        // Create a DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getActivity(),
+                (view, year1, month1, dayOfMonth) -> {
+                    date[0] = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                    favouritesPresenter.insertDayMealEntry(date[0], meal.getIdMeal());
+                    Log.i("Date...", dayOfMonth + "/" + (month1 + 1) + "/" + year1);
+                },
+                year, month, day);
+
+        // Show the DatePickerDialog
+        datePickerDialog.show();
+
     }
 
     @Override

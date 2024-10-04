@@ -38,6 +38,13 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
+    public void filterMealsByName(NetworkCallback networkCallback, String name) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("s", name);
+        remoteDataSource.makeNetworkCall(networkCallback, "search.php", queryParams);
+    }
+
+    @Override
     public void getRandomMeal(NetworkCallback networkCallback) {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("s", "a");
@@ -57,23 +64,32 @@ public class MealsRepositoryImpl implements MealsRepository {
     public void checkMealExists(Meal meal) { localDataSource.checkMealExists(meal); }
 
     @Override
-    public void insertDay(Day day) { localDataSource.insertDay(day); }
+    public LiveData<List<Meal>> getFavouriteMeals() { return localDataSource.getFavouriteMeals(); }
 
     @Override
-    public void deleteDay(Day day) { localDataSource.deleteDay(day); }
-
-    @Override
-    public void insertDayMealEntry(DayMealJunction dayMealJunction) {
-        localDataSource.insertDayMealEntry(dayMealJunction);
+    public void addFavMeal(Meal meal) {
+        localDataSource.insertFavMeal(meal);
+        localDataSource.insertMeal(meal);
     }
 
     @Override
-    public LiveData<List<Meal>> getMealsOfDay(Day day) {
+    public void removeFavMeal(Meal meal) {
+        localDataSource.removeFavMeal(meal);
+    }
+
+    @Override
+    public void insertDayMealEntry(DayMealEntry dayMealEntry) {
+        localDataSource.insertDayMealEntry(dayMealEntry);
+    }
+
+    @Override
+    public LiveData<List<Meal>> getMealsOfDay(String day) {
         return localDataSource.getMealsOfDay(day);
     }
 
     @Override
-    public Day getSun() {
-        return null;
+    public LiveData<List<Meal>> getPlannedMeals() {
+        return localDataSource.getAllPlannedMeals();
     }
+
 }

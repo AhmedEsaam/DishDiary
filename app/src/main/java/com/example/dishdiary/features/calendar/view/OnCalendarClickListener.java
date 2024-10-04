@@ -1,8 +1,8 @@
-package com.example.dishdiary.features.meal_list.view;
+package com.example.dishdiary.features.calendar.view;
 
 import com.example.dishdiary.model.Meal;
 
-public interface OnMealListClickListener {
+public interface OnCalendarClickListener {
     void onLayoutClick(Meal meal);
     void onAddToFavClick(Meal meal);
     void onAddToCalendar(Meal meal);

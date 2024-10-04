@@ -1,4 +1,4 @@
-package com.example.dishdiary.features.meal_list.view;
+package com.example.dishdiary.features.calendar.view;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -13,62 +13,64 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dishdiary.MainActivity;
+import com.example.dishdiary.databinding.FragmentCalendarBinding;
 import com.example.dishdiary.databinding.FragmentMeallistBinding;
 import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
+import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
+import com.example.dishdiary.features.calendar.presenter.CalendarPresenter;
+import com.example.dishdiary.features.calendar.presenter.CalendarPresenterImpl;
 import com.example.dishdiary.features.meal_details.view.MealDetailsActivity;
-import com.example.dishdiary.features.meal_list.presenter.MealListPresenter;
-import com.example.dishdiary.features.meal_list.presenter.MealListPresenterImpl;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
-import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
-public class MealListFragment extends Fragment implements OnMealListClickListener, MealListView {
+public class CalendarFragment extends Fragment implements OnCalendarClickListener, CalendarView {
 
-    private FragmentMeallistBinding binding;
+    private FragmentCalendarBinding binding;
 
-    private static final String TAG = "MealListFragment";
+    private static final String TAG = "CalendarFragment";
 
     // Incoming Data
     String filterBy, value;
 
     // Presenter
-    MealListPresenter mealListPresenter;
+    CalendarPresenter calendarPresenter;
 
     // UI
     private RecyclerView recyclerView;
-    private MealListAdapter mealListAdapter;
+    private CalendarAdapter calendarAdapter;
     private LinearLayoutManager layoutManager;
+
+    LiveData<List<Meal>> plannedMeals;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentMeallistBinding.inflate(inflater, container, false);
+        binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 //        ((MainActivity) requireActivity()).hideBottomNavBar();
-
-        // Sharing data
-        MealListViewModel mealListViewModel = new ViewModelProvider(requireActivity()).get(MealListViewModel.class);
-        mealListViewModel.getMealsList().observe(getViewLifecycleOwner(), new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                if(meals != null)
-                    showData(meals);
-                else
-                    Toast.makeText(getContext(), "No meals found", Toast.LENGTH_SHORT).show();
-            }
-        });
+//
+//        // Sharing data
+//        CalendarViewModel calendarViewModel = new ViewModelProvider(requireActivity()).get(CalendarViewModel.class);
+//        calendarViewModel.getMealsList().observe(getViewLifecycleOwner(), new Observer<List<Meal>>() {
+//            @Override
+//            public void onChanged(List<Meal> meals) {
+//                if(meals != null)
+//                    showData(meals);
+//                else
+//                    Toast.makeText(getContext(), "No meals found", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         ///
 //        DashboardViewModel dashboardViewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
@@ -86,7 +88,7 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
         initUI();
 
         // Presenter
-        mealListPresenter = new MealListPresenterImpl(
+        calendarPresenter = new CalendarPresenterImpl(
                 this,
                 MealsRepositoryImpl.getInstance(
                         MealRemoteDataSourceImpl.getInstance(),
@@ -97,11 +99,16 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
 
         // UI
         recyclerView.setHasFixedSize(true);
-        mealListAdapter = new MealListAdapter(this.getContext(), new ArrayList<Meal>(), this);
+        calendarAdapter = new CalendarAdapter(this.getContext(), new ArrayList<Meal>(), this);
         layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mealListAdapter);
+        recyclerView.setAdapter(calendarAdapter);
+
+        // Observe on data
+        plannedMeals = calendarPresenter.getPlannedMeals();
+
+        plannedMeals.observe(getViewLifecycleOwner(), this::showData);
     }
 
     private void initUI() {
@@ -113,8 +120,8 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
 
     @Override
     public void showData(List<Meal> meals) {
-        mealListAdapter.setList(meals);
-        mealListAdapter.notifyDataSetChanged();
+        calendarAdapter.setList(meals);
+        calendarAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -137,9 +144,8 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
 
     @Override
     public void onAddToFavClick(Meal meal) {
-        mealListPresenter.addToFav(meal);
-        mealListAdapter.notifyDataSetChanged();
-//        mealListPresenter.addMealToSunday(meal);
+        calendarPresenter.addToFav(meal);
+        calendarAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -159,8 +165,8 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
                 getActivity(),
                 (view, year1, month1, dayOfMonth) -> {
                     date[0] = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-                    mealListPresenter.addToStored(meal);
-                    mealListPresenter.insertDayMealEntry(date[0], meal.getIdMeal());
+                    calendarPresenter.addToFav(meal);
+                    calendarPresenter.insertDayMealEntry(date[0], meal.getIdMeal());
                     Log.i("Date...", dayOfMonth + "/" + (month1 + 1) + "/" + year1);
                     },
                 year, month, day);
@@ -168,6 +174,7 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
         // Show the DatePickerDialog
         datePickerDialog.show();
 
+//        mealListPresenter.insertDayMealEntry(date[0], meal.getIdMeal());
     }
 
     @Override

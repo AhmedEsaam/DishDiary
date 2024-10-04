@@ -1,6 +1,7 @@
 package com.example.dishdiary;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.dishdiary.features.home.view.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.dishdiary.databinding.ActivityMainBinding;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     // UI
     private final String HOME_FRAGMENT = "dyn_home_frag";
     HomeFragment homeFragment;
+    BottomNavigationView navView;
 
 //    private final String PRODUCT_DETAILS_FRAGMENT = "dyn_product_details_frag";
 //    ProductDetailsFrag productDetailsFrag;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 //            // commit change
 //            trns.commit();
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+
 //        } else {
         // obtain reference from fragmentB
 //            homeFragment = (HomeFragment) mgr.findFragmentByTag(HOME_FRAGMENT);
@@ -73,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
+    }
+
+    public void hideBottomNavBar() {
+        navView.setVisibility(View.GONE);
+    }
+
+    public void showBottomNavBar() {
+        navView.setVisibility(View.VISIBLE);
     }
 
 }

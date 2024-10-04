@@ -1,6 +1,5 @@
-package com.example.dishdiary.features.meal_list.view;
+package com.example.dishdiary.features.calendar.view;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,17 +18,16 @@ import com.example.dishdiary.R;
 import com.example.dishdiary.model.Meal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Calendar;
 import java.util.List;
 
-public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.ViewHolder> {
+public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
     private final Context context;
-    private final OnMealListClickListener listener;
+    private final OnCalendarClickListener listener;
     private List<Meal> values;
 
     private static final String TAG = "RecyclerView";
 
-    public MealListAdapter(Context context, List<Meal> values, OnMealListClickListener listener) {
+    public CalendarAdapter(Context context, List<Meal> values, OnCalendarClickListener listener) {
         this.context = context;
         this.values = values;
         this.listener = listener;

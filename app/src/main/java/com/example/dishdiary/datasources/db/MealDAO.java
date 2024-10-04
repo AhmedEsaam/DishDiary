@@ -7,15 +7,17 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.dishdiary.model.Day;
+import com.example.dishdiary.model.DayMealEntry;
+import com.example.dishdiary.model.FavMeal;
 import com.example.dishdiary.model.Meal;
-import com.example.dishdiary.model.DayMealJunction;
 
 import java.util.List;
 
 @Dao
 public interface MealDAO {
+
     // Meal table
+
     @Query("SELECT * FROM meals_table")
     LiveData<List<Meal>> getAllMeals();
 
@@ -28,30 +30,42 @@ public interface MealDAO {
     @Query("SELECT EXISTS(SELECT 1 FROM meals_table WHERE idMeal = :idMeal)")
     boolean isMealExists(String idMeal);
 
-    // Day table
+
+    // Meal-Day Entry table
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertDay(Day day);
+    void insertDayMealEntry(DayMealEntry dayMealEntry);
 
     @Delete
-    void deleteDay(Day day);
+    void deleteDayMealEntry(DayMealEntry dayMealEntry);
 
-    // Meal-Day Junction table
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertDayMealEntry(DayMealJunction dayMealJunction);
 
-    @Delete
-    void deleteDayMealEntry(DayMealJunction dayMealJunction);
+    @Query("SELECT meals_table.* FROM meals_table " +
+            "JOIN day_meal_table ON meals_table.idMeal = day_meal_table.idMeal ")
+    LiveData<List<Meal>> getAllPlannedMeals();
+
 
     @Query("SELECT meals_table.* FROM meals_table " +
             "JOIN day_meal_table ON meals_table.idMeal = day_meal_table.idMeal " +
-            "JOIN days_table ON day_meal_table.idDay = days_table.idDay " +
-            "WHERE days_table.dayName = :dayName")
+            "WHERE day_meal_table.day = :dayName")
     LiveData<List<Meal>> getMealsOfDay(String dayName);
 
-    @Query("DELETE FROM day_meal_table")
-    void deleteAllJunctions();
 
-    @Query("DELETE FROM days_table")
-    void deleteAllDays();
+    @Query("DELETE FROM day_meal_table")
+    void deleteAllEntries();
+
+
+    // favourite Meals Table
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertFavMeal(FavMeal favMeal);
+
+    @Query("DELETE FROM fav_meal_table WHERE idMeal = :mealId")
+    void deleteFavMeal(String mealId);
+
+    @Query("SELECT meals_table.* FROM meals_table " +
+            "JOIN fav_meal_table ON meals_table.idMeal = fav_meal_table.idMeal ")
+    LiveData<List<Meal>> getFavouriteMeals();
+
 
 }

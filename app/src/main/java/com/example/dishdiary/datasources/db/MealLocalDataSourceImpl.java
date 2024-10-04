@@ -4,13 +4,14 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.dishdiary.model.Day;
-import com.example.dishdiary.model.DayMealJunction;
+import com.example.dishdiary.model.DayMealEntry;
+import com.example.dishdiary.model.FavMeal;
 import com.example.dishdiary.model.Meal;
 
 import java.util.List;
 
 public class MealLocalDataSourceImpl implements MealLocalDataSource {
+
     private static MealLocalDataSource MealLocalDataSource = null;
 
     private Context context;
@@ -19,7 +20,6 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
     private LiveData<List<Meal>> storedMeals;
 //    private LiveData<List<Meal>> mealsOfDay;
 
-    private static Day sat, sun, mon, tue, wed, thu, fri;
 
     private MealLocalDataSourceImpl(Context context) {
         this.context = context;
@@ -27,58 +27,13 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
         mealDAO = db.getMealDAO();
         storedMeals = mealDAO.getAllMeals();
 
-        sat = new Day("Saturday");
-        sun = new Day("Sunday");
-        mon = new Day("Monday");
-        tue = new Day("Tuesday");
-        wed = new Day("Wednesday");
-        thu = new Day("Thursday");
-        fri = new Day("Friday");
-
     }
 
     public static MealLocalDataSource getInstance(Context context) {
         if (MealLocalDataSource == null) {
             MealLocalDataSource = new MealLocalDataSourceImpl(context);
-
-            // Add days of the week
-//            MealLocalDataSource.insertDay(sat);
-//            MealLocalDataSource.insertDay(sun);
-//            MealLocalDataSource.insertDay(mon);
-//            MealLocalDataSource.insertDay(tue);
-//            MealLocalDataSource.insertDay(wed);
-//            MealLocalDataSource.insertDay(thu);
-//            MealLocalDataSource.insertDay(fri);
         }
         return MealLocalDataSource;
-    }
-
-    public Day getSat() {
-        return sat;
-    }
-
-    public Day getSun() {
-        return sun;
-    }
-
-    public Day getMon() {
-        return mon;
-    }
-
-    public Day getTue() {
-        return tue;
-    }
-
-    public Day getWed() {
-        return wed;
-    }
-
-    public Day getThu() {
-        return thu;
-    }
-
-    public Day getFri() {
-        return fri;
     }
 
     @Override
@@ -91,6 +46,7 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                meal.setFav(true);
                 mealDAO.insertMeal(meal);
             }
         }).start();
@@ -116,75 +72,76 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
         }).start();
     }
 
-    // Days Plan
 
     @Override
-    public void insertDay(Day day) {
+    public void insertDayMealEntry(DayMealEntry dayMealEntry) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.insertDay(day);
+                mealDAO.insertDayMealEntry(dayMealEntry);
             }
         }).start();
     }
 
     @Override
-    public void deleteDay(Day day) {
+    public void deleteDayMealEntry(DayMealEntry dayMealEntry) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.deleteDay(day);
+                mealDAO.deleteDayMealEntry(dayMealEntry);
             }
         }).start();
     }
 
     @Override
-    public void insertDayMealEntry(DayMealJunction dayMealJunction) {
+    public LiveData<List<Meal>> getMealsOfDay(String day) {
+        return mealDAO.getMealsOfDay(day);
+    }
+
+    @Override
+    public LiveData<List<Meal>> getAllPlannedMeals() {
+        return mealDAO.getAllPlannedMeals();
+    }
+
+    @Override
+    public LiveData<List<Meal>> getFavouriteMeals() {
+        return mealDAO.getFavouriteMeals();
+    }
+
+
+    @Override
+    public void insertFavMeal(Meal meal) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.insertDayMealEntry(dayMealJunction);
+                mealDAO.insertFavMeal(new FavMeal(meal.getIdMeal()));
             }
         }).start();
     }
 
     @Override
-    public void deleteDayMealEntry(DayMealJunction dayMealJunction) {
+    public void removeFavMeal(Meal meal) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.deleteDayMealEntry(dayMealJunction);
+                mealDAO.deleteFavMeal(meal.getIdMeal());
             }
         }).start();
-    }
-
-    @Override
-    public LiveData<List<Meal>> getMealsOfDay(Day day) {
-        return mealDAO.getMealsOfDay(day.getDayName());
     }
 
 
     ////
     @Override
-    public void deleteAllJunctions() {
+    public void deleteAllEntries() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.deleteAllJunctions();
+                mealDAO.deleteAllEntries();
             }
         }).start();
 
     }
 
-    @Override
-    public void deleteAllDays() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mealDAO.deleteAllDays();
-            }
-        }).start();
-    }
 
 
 }

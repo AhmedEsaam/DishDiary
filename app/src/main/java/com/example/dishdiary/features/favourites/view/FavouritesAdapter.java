@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdiary.R;
 import com.example.dishdiary.model.Meal;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         private final ImageView imgView;
         private final TextView txtName, txtCategory, txtArea;
         private final Button btnRemoveFromFav;
+        private final FloatingActionButton fabAddToCal;
         private final View layout;
 
         public ViewHolder(@NonNull View v) {
@@ -50,6 +52,8 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             txtArea = v.findViewById(R.id.txtArea);
             imgView = v.findViewById(R.id.imgView);
             btnRemoveFromFav = v.findViewById(R.id.btnAddToFav);
+            fabAddToCal = v.findViewById(R.id.fabAddToCal);
+
         }
     }
 
@@ -92,6 +96,11 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             public void onClick(View view) {
                 listener.onRemoveFromFavClick(meal);
             }
+        });
+
+        holder.fabAddToCal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { listener.onAddToCalendar(meal); }
         });
 
         Log.i(TAG, "===== ViewHolder Binded ====");

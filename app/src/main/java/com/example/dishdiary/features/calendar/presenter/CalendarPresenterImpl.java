@@ -1,21 +1,20 @@
-package com.example.dishdiary.features.meal_list.presenter;
+package com.example.dishdiary.features.calendar.presenter;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.dishdiary.features.meal_list.view.MealListView;
+import com.example.dishdiary.datasources.network.NetworkCallback;
+import com.example.dishdiary.features.calendar.view.CalendarView;
 import com.example.dishdiary.model.DayMealEntry;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepository;
-import com.example.dishdiary.datasources.network.NetworkCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MealListPresenterImpl implements MealListPresenter, NetworkCallback {
-    private MealListView _view;
+public class CalendarPresenterImpl implements CalendarPresenter, NetworkCallback {
+    private CalendarView _view;
     private MealsRepository _repo;
 
-    public MealListPresenterImpl(MealListView _view, MealsRepository _repo) {
+    public CalendarPresenterImpl(CalendarView _view, MealsRepository _repo) {
         this._view = _view;
         this._repo = _repo;
     }
@@ -37,6 +36,7 @@ public class MealListPresenterImpl implements MealListPresenter, NetworkCallback
         _repo.insertMeal(meal);
     }
 
+
     @Override
     public void onSuccessResult(List<Meal> meals) {
         for(Meal meal : meals) {
@@ -49,12 +49,6 @@ public class MealListPresenterImpl implements MealListPresenter, NetworkCallback
     public void onFailureResult(String errorMsg) { _view.showErrMsg(errorMsg); }
 
 
-
-    @Override
-    public void getRandomMeal() {
-
-    }
-
     @Override
     public void isMealExists(Meal meal) {
         _repo.checkMealExists(meal);
@@ -65,9 +59,13 @@ public class MealListPresenterImpl implements MealListPresenter, NetworkCallback
         _repo.insertDayMealEntry(new DayMealEntry(day, mealId));
     }
 
+    @Override
+    public LiveData<List<Meal>> getPlannedMeals() {
+        return _repo.getPlannedMeals();
+    }
 
-    public LiveData<List<Meal>> getPlannedMeals(String day) {
+    @Override
+    public LiveData<List<Meal>> getMealOfDay(String day) {
         return _repo.getMealsOfDay(day);
-//        return null;
     }
 }

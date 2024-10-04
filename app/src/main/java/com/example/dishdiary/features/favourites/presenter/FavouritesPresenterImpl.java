@@ -3,6 +3,7 @@ package com.example.dishdiary.features.favourites.presenter;
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdiary.features.favourites.view.FavouritesView;
+import com.example.dishdiary.model.DayMealEntry;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepository;
 
@@ -20,12 +21,17 @@ public class FavouritesPresenterImpl implements FavouritesPresenter {
 
     @Override
     public LiveData<List<Meal>> getFavMeals() {
-        return repo.getStoredMeals();
+        return repo.getFavouriteMeals();
     }
 
     @Override
     public void removeFromFav(Meal meal) {
         meal.setFav(false);
-        repo.deleteMeal(meal);
+        repo.removeFavMeal(meal);
+    }
+
+    @Override
+    public void insertDayMealEntry(String day, String mealId) {
+        repo.insertDayMealEntry(new DayMealEntry(day, mealId));
     }
 }

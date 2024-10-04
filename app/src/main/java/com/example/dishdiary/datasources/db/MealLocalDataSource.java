@@ -2,8 +2,7 @@ package com.example.dishdiary.datasources.db;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.dishdiary.model.Day;
-import com.example.dishdiary.model.DayMealJunction;
+import com.example.dishdiary.model.DayMealEntry;
 import com.example.dishdiary.model.Meal;
 
 import java.util.List;
@@ -15,24 +14,17 @@ public interface MealLocalDataSource {
     void removeMeal(Meal meal);
     void checkMealExists(Meal meal);
 
-    // Days Table
-    void insertDay(Day day);
-    void deleteDay(Day day);
+    // Day-Meal Entry Table Entries
+    void insertDayMealEntry(DayMealEntry dayMealEntry);
+    void deleteDayMealEntry(DayMealEntry dayMealEntry);
+    LiveData<List<Meal>> getMealsOfDay(String day);
+    LiveData<List<Meal>> getAllPlannedMeals();
 
-    // Day-Meal Junction Table Entries
-    void insertDayMealEntry(DayMealJunction dayMealJunction);
-    void deleteDayMealEntry(DayMealJunction dayMealJunction);
-    LiveData<List<Meal>> getMealsOfDay(Day day);
-
+    // Favourite Meals Table
+    LiveData<List<Meal>> getFavouriteMeals();
+    void insertFavMeal(Meal meal);
+    void removeFavMeal(Meal meal);
     //
-    void deleteAllJunctions();
-    void deleteAllDays();
-    Day getSat();
-    Day getSun();
-    Day getMon();
-    Day getTue();
-    Day getWed();
-    Day getThu();
-    Day getFri();
+    void deleteAllEntries();
 
 }

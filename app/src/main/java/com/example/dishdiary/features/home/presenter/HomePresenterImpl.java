@@ -3,7 +3,6 @@ package com.example.dishdiary.features.home.presenter;
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdiary.features.home.view.HomeView;
-import com.example.dishdiary.model.Day;
 import com.example.dishdiary.model.MealsRepository;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.datasources.network.NetworkCallback;
@@ -22,13 +21,17 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
 
     @Override
     public void getAllMeals() { _repo.getAllMeals(this); }
-//    public void getAllMeals() { _view.showData(_repo.getMealsOfDay(sun).getValue()); }
+//    public void getAllMeals() { _view.showData(_repo.getMealsOfDay(sun).getQueryValue()); }
 
 
 
-    @Override
     public void addToFav(Meal meal) {
         meal.setFav(true);
+        _repo.addFavMeal(meal);
+    }
+
+    @Override
+    public void addToStored(Meal meal) {
         _repo.insertMeal(meal);
     }
 
@@ -46,15 +49,8 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
     @Override
     public void getRandomMeal() { _repo.getRandomMeal(this); }
 
-    // test
-    public void addMealToSunday(Meal meal) {
-//
-//        _repo.insertDay(sun);
 
-//        DayMealJunction dayMealJunction = new DayMealJunction(day.getIdDay(), meal.getIdMeal());
-    }
-
-    public LiveData<List<Meal>> getPlannedMeals(Day day) {
+    public LiveData<List<Meal>> getPlannedMeals(String day) {
         return _repo.getMealsOfDay(day);
 //        return null;
     }

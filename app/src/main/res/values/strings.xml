@@ -107,4 +107,6 @@
     <string name="search_hint">Search_Meals</string>
     <string name="title_plan">Plan</string>
     <string name="search_by_categories">Search by Category</string>
+    <string name="search_by_area">Explore Different Cuisines</string>
+    <string name="search_by_ingredient">Search by Main Ingredient</string>
 </resources>

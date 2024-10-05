@@ -2,15 +2,27 @@ package com.example.dishdiary.model;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.dishdiary.datasources.network.AreaNetworkCallback;
+import com.example.dishdiary.datasources.network.CategoryNetworkCallback;
 import com.example.dishdiary.datasources.network.NetworkCallback;
 
 import java.util.List;
 
 public interface MealsRepository {
     // Remote Data Source
+    // Meals
     public void getAllMeals(NetworkCallback networkCallback);
-    public void filterMealsByName(NetworkCallback networkCallback, String name);
+    public void getMealById(NetworkCallback networkCallback, String mealId);
     public void getRandomMeal(NetworkCallback networkCallback);
+    public void filterMealsByName(NetworkCallback networkCallback, String name);
+    public void filterMealsByCategory(NetworkCallback networkCallback, String category);
+    public void filterMealsByArea(NetworkCallback networkCallback, String area);
+
+    // Categories
+    public void getAllCategories(CategoryNetworkCallback categoryNetworkCallback);
+
+    // Categories
+    public void getAllAreas(AreaNetworkCallback areaNetworkCallback);
 
     // Local Data Source - Stored Meals
     public LiveData<List<Meal>> getStoredMeals();

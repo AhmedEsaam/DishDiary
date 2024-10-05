@@ -1,5 +1,8 @@
 package com.example.dishdiary.datasources.network;
 
+import com.example.dishdiary.model.AreaResponse;
+import com.example.dishdiary.model.CategoryResponse;
+import com.example.dishdiary.model.IngredientResponse;
 import com.example.dishdiary.model.MealsResponse;
 
 import java.util.Map;
@@ -17,9 +20,20 @@ public interface MealService {
     @GET
     Call<MealsResponse> getMealResponse(@Url String endpoint, @QueryMap Map<String, String> queryParams);
 
+    @GET("categories.php")
+    Call<CategoryResponse> getCategoryResponse();
+
+    @GET("list.php?a=list")
+    Call<AreaResponse> getAreaResponse();
+
+    @GET("list.php?i=list")
+    Call<IngredientResponse> getIngredientResponse();
+
 //
-//    @GET("random.php")
-//    Call<MealsResponse> getRandomMealResponse();
+//    @GET("list.php?i=list")
+//    Call<IngredientResponse> getIngredientResponse();
+
+
 //
 //    @GET("search.php")
 //    Call<MealsResponse> getSearchMealResponse(@Query("s") String mealName);

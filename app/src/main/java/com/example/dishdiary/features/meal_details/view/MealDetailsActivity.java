@@ -7,7 +7,13 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdiary.R;
+import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
+import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
+import com.example.dishdiary.features.meal_details.presenter.MealDetailsPresenter;
+import com.example.dishdiary.features.meal_details.presenter.MealDetailsPresenterImpl;
+import com.example.dishdiary.features.meal_list.presenter.MealListPresenterImpl;
 import com.example.dishdiary.model.Meal;
+import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,9 +31,13 @@ import android.widget.TextView;
 
 import com.example.dishdiary.databinding.ActivityMealDetailsBinding;
 
-public class MealDetailsActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MealDetailsActivity extends AppCompatActivity implements MealDetailsView, OnMealDetailsClickListener {
 
     private ActivityMealDetailsBinding binding;
+
+    private MealDetailsPresenter mealDetailsPresenter;
 
     private ImageView imgView;
     private TextView txtName, txtCategory, txtArea, txtInstructions;
@@ -42,10 +52,14 @@ public class MealDetailsActivity extends AppCompatActivity {
         binding = ActivityMealDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // UI - Toolbar
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
+        // Presenter
+        mealDetailsPresenter = new MealDetailsPresenterImpl(
+                this,
+                MealsRepositoryImpl.getInstance(
+                        MealRemoteDataSourceImpl.getInstance(),
+                        MealLocalDataSourceImpl.getInstance(this)
+                )
+        );
 
         // UI - Floating Favourite Button
         FloatingActionButton fab = binding.fab;
@@ -67,25 +81,7 @@ public class MealDetailsActivity extends AppCompatActivity {
 
         Meal meal = (Meal) getIntent().getSerializableExtra("mealDetails");
         if(meal != null) {
-            toolBarLayout.setTitle(meal.getStrMeal());
-            toolbar.setTitleTextAppearance(this, R.style.Theme_DishDiary);
-            txtCategory.setText(meal.getStrCategory());
-            txtArea.setText(meal.getStrArea());
-
-
-            Glide.with(this).load(meal.getStrMealThumb())
-                    .apply(new RequestOptions()
-                            .placeholder(R.drawable.ic_launcher_foreground)
-                            .error(R.drawable.ic_launcher_foreground))
-                    .into(imgView);
-
-            // Video Web View
-            webView.setWebViewClient(new WebViewClient());
-            WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-
-            webView.loadUrl(getEmbedUrl(meal.getStrYoutube()));
-
+            mealDetailsPresenter.getMealById(meal.getIdMeal());
 
         }
     }
@@ -96,5 +92,52 @@ public class MealDetailsActivity extends AppCompatActivity {
 //        return "https://www.youtube.com/embed/" + videoId + "?autoplay=0";
         return url.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/") +
                 (url.contains("&") ? url.substring(url.indexOf("&")) : "");
+    }
+
+    @Override
+    public void showData(Meal meal) {
+
+        // UI - Toolbar
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
+
+        toolBarLayout.setTitle(meal.getStrMeal());
+        toolbar.setTitleTextAppearance(this, R.style.Theme_DishDiary);
+        txtCategory.setText(meal.getStrCategory());
+        txtArea.setText(meal.getStrArea());
+
+        Glide.with(this).load(meal.getStrMealThumb())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .error(R.drawable.ic_launcher_foreground))
+                .into(imgView);
+
+        // Video Web View
+        webView.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        webView.loadUrl(getEmbedUrl(meal.getStrYoutube()));
+    }
+
+    @Override
+    public void showErrMsg(String error) {
+
+    }
+
+    @Override
+    public void onLayoutClick(Meal meal) {
+
+    }
+
+    @Override
+    public void onAddToFavClick(Meal meal) {
+
+    }
+
+    @Override
+    public void onRemoveFromFavClick(Meal meal) {
+
     }
 }

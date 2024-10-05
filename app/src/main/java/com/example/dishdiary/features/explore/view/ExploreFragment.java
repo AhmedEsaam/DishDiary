@@ -2,6 +2,7 @@ package com.example.dishdiary.features.explore.view;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +26,12 @@ import com.example.dishdiary.databinding.FragmentExploreBinding;
 import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
 import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
 import com.example.dishdiary.features.explore.presenter.ExplorePresenterImpl;
+import com.example.dishdiary.features.meal_details.view.MealDetailsActivity;
+import com.example.dishdiary.features.meal_list.presenter.MealListPresenterImpl;
+import com.example.dishdiary.features.meal_list.view.MealListAdapter;
 import com.example.dishdiary.features.meal_list.view.MealListViewModel;
+import com.example.dishdiary.model.Area;
+import com.example.dishdiary.model.Category;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,7 +44,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExploreFragment extends Fragment implements OnExploreClickListener, ExploreView {
 
     private FragmentExploreBinding binding;
-    List<String> allMealsNames = new ArrayList<>();
 
     // MealList view model
     MealListViewModel mealListViewModel;
@@ -43,9 +51,19 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     // Presenter
     ExplorePresenterImpl explorePresenter;
 
-    // UI - Maintaining the selected navigation bar selected item
+    // Maintaining the selected navigation bar selected item
     int selectedItemId;
     BottomNavigationView bottomNavigationView;
+
+    // UI - Category List
+    private RecyclerView recyclerView;
+    private ExploreAdapter exploreAdapter;
+    private GridLayoutManager layoutManager;
+
+    // UI - Areas List
+    private RecyclerView areaRecyclerView;
+    private ExploreAreasAdapter exploreAreasAdapter;
+    private LinearLayoutManager areaLayoutManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,7 +115,6 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
         autoCompSearch.setAdapter(adapter);
 
 
-
         // Share data with MealList Fragment through its View Model
         mealListViewModel = new ViewModelProvider(requireActivity()).get(MealListViewModel.class);
 
@@ -116,6 +133,41 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
         return root;
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
+        initUI();
+
+        // List Categories
+        explorePresenter.getAllCategories();
+
+        // Categories - UI
+        recyclerView.setHasFixedSize(true);
+        exploreAdapter = new ExploreAdapter(this.getContext(), new ArrayList<Category>(), this);
+        layoutManager = new GridLayoutManager(requireContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(exploreAdapter);
+
+
+        // List Areas
+        explorePresenter.getAllAreas();
+
+        // Categories - UI
+        areaRecyclerView.setHasFixedSize(true);
+        exploreAreasAdapter = new ExploreAreasAdapter(this.getContext(), new ArrayList<Area>(), this);
+        areaLayoutManager = new LinearLayoutManager(this.getContext());
+        areaLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        areaRecyclerView.setLayoutManager(areaLayoutManager);
+        areaRecyclerView.setAdapter(exploreAreasAdapter);
+    }
+
+    private void initUI() {
+        recyclerView = (RecyclerView) binding.recycCategories;
+        areaRecyclerView = (RecyclerView) binding.recycAreas;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -123,9 +175,20 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     }
 
     @Override
+    public void onCategoryLayoutClick(Category category) {
+        explorePresenter.filterByCategory(category.getStrCategory());
+    }
+
+    @Override
+    public void onAreaClick(Area area) {
+        explorePresenter.filterByArea(area.getStrArea());
+    }
+
+    @Override
     public void onSearchClick() {
 
     }
+
 
     @Override
     public void showData(List<Meal> meals) {
@@ -138,7 +201,20 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     }
 
     @Override
+    public void showCategories(List<Category> categories) {
+        exploreAdapter.setList(categories);
+        exploreAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void showAreas(List<Area> areas) {
+        exploreAreasAdapter.setList(areas);
+        exploreAreasAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void showErrMsg(String error) {
-        Toast.makeText(getContext(), "No meals found", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "No results found", Toast.LENGTH_SHORT).show();
     }
 }

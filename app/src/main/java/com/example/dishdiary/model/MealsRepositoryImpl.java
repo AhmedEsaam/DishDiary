@@ -1,9 +1,13 @@
 package com.example.dishdiary.model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdiary.datasources.db.MealLocalDataSource;
 
+import com.example.dishdiary.datasources.network.AreaNetworkCallback;
+import com.example.dishdiary.datasources.network.CategoryNetworkCallback;
 import com.example.dishdiary.datasources.network.NetworkCallback;
 import com.example.dishdiary.datasources.network.MealRemoteDataSource;
 
@@ -38,10 +42,31 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
+    public void getMealById(NetworkCallback networkCallback, String mealId) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("i", mealId);
+        remoteDataSource.makeNetworkCall(networkCallback, "lookup.php", queryParams);
+    }
+
+    @Override
     public void filterMealsByName(NetworkCallback networkCallback, String name) {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("s", name);
         remoteDataSource.makeNetworkCall(networkCallback, "search.php", queryParams);
+    }
+
+    @Override
+    public void filterMealsByCategory(NetworkCallback networkCallback, String category) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("c", category);
+        remoteDataSource.makeNetworkCall(networkCallback, "filter.php", queryParams);
+    }
+
+    @Override
+    public void filterMealsByArea(NetworkCallback networkCallback, String area) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("a", area);
+        remoteDataSource.makeNetworkCall(networkCallback, "filter.php", queryParams);
     }
 
     @Override
@@ -50,6 +75,17 @@ public class MealsRepositoryImpl implements MealsRepository {
         queryParams.put("s", "a");
         remoteDataSource.makeNetworkCall(networkCallback, "random.php", queryParams);
     }
+
+    @Override
+    public void getAllCategories(CategoryNetworkCallback categoryNetworkCallback) {
+        remoteDataSource.makeCategoryNetworkCall(categoryNetworkCallback);
+    }
+
+    @Override
+    public void getAllAreas(AreaNetworkCallback areaNetworkCallback) {
+        remoteDataSource.makeAreaNetworkCall(areaNetworkCallback);
+    }
+
 
     @Override
     public LiveData<List<Meal>> getStoredMeals() { return localDataSource.getStoredMeals(); }

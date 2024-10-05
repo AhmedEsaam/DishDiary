@@ -2,6 +2,8 @@ package com.example.dishdiary.datasources.network;
 
 import android.util.Log;
 
+import com.example.dishdiary.model.AreaResponse;
+import com.example.dishdiary.model.CategoryResponse;
 import com.example.dishdiary.model.MealsResponse;
 
 import java.util.Map;
@@ -50,4 +52,40 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             }
         });
     }
+
+    @Override
+    public void makeCategoryNetworkCall(CategoryNetworkCallback categoryNetworkCallback) {
+        mealService.getCategoryResponse().enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                Log.i(TAG, "OnCategoryResponse..." + response.body().getCategories());
+                categoryNetworkCallback.onCategorySuccessResult(response.body().getCategories());
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable throwable) {
+                categoryNetworkCallback.onCategoryFailureResult(throwable.getMessage());
+
+            }
+        });
+    }
+
+    @Override
+    public void makeAreaNetworkCall(AreaNetworkCallback areaNetworkCallback) {
+        mealService.getAreaResponse().enqueue(new Callback<AreaResponse>() {
+            @Override
+            public void onResponse(Call<AreaResponse> call, Response<AreaResponse> response) {
+                Log.i(TAG, "OnAreaResponse..." + response.body().getAreas());
+                areaNetworkCallback.onAreaSuccessResult(response.body().getAreas());
+            }
+
+            @Override
+            public void onFailure(Call<AreaResponse> call, Throwable throwable) {
+                areaNetworkCallback.onAreaFailureResult(throwable.getMessage());
+
+            }
+        });
+    }
+
+
 }

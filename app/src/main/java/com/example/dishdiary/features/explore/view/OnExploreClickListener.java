@@ -1,9 +1,12 @@
 package com.example.dishdiary.features.explore.view;
 
+import com.example.dishdiary.model.Area;
+import com.example.dishdiary.model.Category;
 import com.example.dishdiary.model.Meal;
 
 public interface OnExploreClickListener {
-//    void onLayoutClick(Meal meal);
+    void onCategoryLayoutClick(Category category);
+    void onAreaClick(Area area);
 //    void onAddToFavClick(Meal meal);
 //    void openDetails();
     void onSearchClick();

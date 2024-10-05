@@ -17,6 +17,11 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter, NetworkCa
     }
 
     @Override
+    public void getMealById(String mealId) {
+        _repo.getMealById(this, mealId);
+    }
+
+    @Override
     public void getIngredient() {
 
     }
@@ -35,13 +40,13 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter, NetworkCa
 
     @Override
     public void onSuccessResult(List<Meal> meals) {
-//        for(Meal Meal : meals) {
-//            _repo.checkMealExists(Meal);
-//        }
-//        _view.showData(meals);
+        _repo.checkMealExists(meals.get(0));
+        _view.showData(meals.get(0));
     }
 
     @Override
-    public void onFailureResult(String errorMsg) { _view.showErrMsg(errorMsg); }
+    public void onFailureResult(String errorMsg) {
+        _view.showErrMsg(errorMsg);
+    }
 
 }

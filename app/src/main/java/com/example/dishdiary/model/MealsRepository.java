@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dishdiary.datasources.network.AreaNetworkCallback;
 import com.example.dishdiary.datasources.network.CategoryNetworkCallback;
+import com.example.dishdiary.datasources.network.IngredientNetworkCallback;
 import com.example.dishdiary.datasources.network.NetworkCallback;
 
 import java.util.List;
@@ -17,12 +18,16 @@ public interface MealsRepository {
     public void filterMealsByName(NetworkCallback networkCallback, String name);
     public void filterMealsByCategory(NetworkCallback networkCallback, String category);
     public void filterMealsByArea(NetworkCallback networkCallback, String area);
+    public void filterMealsByIngredient(NetworkCallback networkCallback, String ingredient);
 
     // Categories
     public void getAllCategories(CategoryNetworkCallback categoryNetworkCallback);
 
-    // Categories
+    // Areas
     public void getAllAreas(AreaNetworkCallback areaNetworkCallback);
+
+    // Ingredients
+    public void getAllIngredients(IngredientNetworkCallback ingredientNetworkCallback);
 
     // Local Data Source - Stored Meals
     public LiveData<List<Meal>> getStoredMeals();

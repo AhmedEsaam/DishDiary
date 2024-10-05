@@ -32,6 +32,7 @@ import com.example.dishdiary.features.meal_list.view.MealListAdapter;
 import com.example.dishdiary.features.meal_list.view.MealListViewModel;
 import com.example.dishdiary.model.Area;
 import com.example.dishdiary.model.Category;
+import com.example.dishdiary.model.Ingredient;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,6 +65,11 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     private RecyclerView areaRecyclerView;
     private ExploreAreasAdapter exploreAreasAdapter;
     private LinearLayoutManager areaLayoutManager;
+
+    // UI - Areas List
+    private RecyclerView ingredientRecyclerView;
+    private ExploreIngredientsAdapter exploreIngredientsAdapter;
+    private LinearLayoutManager ingredientLayoutManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -161,11 +167,24 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
         areaLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         areaRecyclerView.setLayoutManager(areaLayoutManager);
         areaRecyclerView.setAdapter(exploreAreasAdapter);
+
+
+        // List Ingredients
+        explorePresenter.getAllIngredients();
+
+        // Categories - UI
+        ingredientRecyclerView.setHasFixedSize(true);
+        exploreIngredientsAdapter = new ExploreIngredientsAdapter(this.getContext(), new ArrayList<Ingredient>(), this);
+        ingredientLayoutManager = new LinearLayoutManager(this.getContext());
+        ingredientLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+        ingredientRecyclerView.setAdapter(exploreIngredientsAdapter);
     }
 
     private void initUI() {
         recyclerView = (RecyclerView) binding.recycCategories;
         areaRecyclerView = (RecyclerView) binding.recycAreas;
+        ingredientRecyclerView = (RecyclerView) binding.recycIngredients;
     }
 
     @Override
@@ -182,6 +201,11 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     @Override
     public void onAreaClick(Area area) {
         explorePresenter.filterByArea(area.getStrArea());
+    }
+
+    @Override
+    public void onIngredientClick(Ingredient ingredient) {
+        explorePresenter.filterByIngredient(ingredient.getStrIngredient());
     }
 
     @Override
@@ -211,6 +235,12 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     public void showAreas(List<Area> areas) {
         exploreAreasAdapter.setList(areas);
         exploreAreasAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showIngredients(List<Ingredient> ingredients) {
+        exploreIngredientsAdapter.setList(ingredients);
+        exploreIngredientsAdapter.notifyDataSetChanged();
     }
 
     @Override

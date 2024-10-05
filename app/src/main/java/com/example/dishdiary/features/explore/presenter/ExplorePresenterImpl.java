@@ -2,17 +2,19 @@ package com.example.dishdiary.features.explore.presenter;
 
 import com.example.dishdiary.datasources.network.AreaNetworkCallback;
 import com.example.dishdiary.datasources.network.CategoryNetworkCallback;
+import com.example.dishdiary.datasources.network.IngredientNetworkCallback;
 import com.example.dishdiary.features.explore.view.ExploreView;
 import com.example.dishdiary.features.home.view.HomeView;
 import com.example.dishdiary.model.Area;
 import com.example.dishdiary.model.Category;
+import com.example.dishdiary.model.Ingredient;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepository;
 import com.example.dishdiary.datasources.network.NetworkCallback;
 
 import java.util.List;
 
-public class ExplorePresenterImpl implements ExplorePresenter, NetworkCallback, CategoryNetworkCallback, AreaNetworkCallback {
+public class ExplorePresenterImpl implements ExplorePresenter, NetworkCallback, CategoryNetworkCallback, AreaNetworkCallback, IngredientNetworkCallback {
     private ExploreView view;
     private MealsRepository repo;
 
@@ -43,6 +45,11 @@ public class ExplorePresenterImpl implements ExplorePresenter, NetworkCallback, 
     }
 
     @Override
+    public void filterByIngredient(String ingredient) {
+        repo.filterMealsByIngredient(this, ingredient);
+    }
+
+    @Override
     public void getAllCategories() {
         repo.getAllCategories(this);
     }
@@ -50,6 +57,11 @@ public class ExplorePresenterImpl implements ExplorePresenter, NetworkCallback, 
     @Override
     public void getAllAreas() {
         repo.getAllAreas(this);
+    }
+
+    @Override
+    public void getAllIngredients() {
+        repo.getAllIngredients(this);
     }
 
 
@@ -97,6 +109,20 @@ public class ExplorePresenterImpl implements ExplorePresenter, NetworkCallback, 
 
     @Override
     public void onAreaFailureResult(String errorMsg) {
+        view.showErrMsg(errorMsg);
+    }
+
+    @Override
+    public void onIngredientSuccessResult(List<Ingredient> ingredients) {
+        if (ingredients != null) {
+            view.showIngredients(ingredients);
+        } else {
+            view.showErrMsg("No ingredients found");
+        }
+    }
+
+    @Override
+    public void onIngredientFailureResult(String errorMsg) {
         view.showErrMsg(errorMsg);
     }
 }

@@ -8,6 +8,7 @@ import com.example.dishdiary.datasources.db.MealLocalDataSource;
 
 import com.example.dishdiary.datasources.network.AreaNetworkCallback;
 import com.example.dishdiary.datasources.network.CategoryNetworkCallback;
+import com.example.dishdiary.datasources.network.IngredientNetworkCallback;
 import com.example.dishdiary.datasources.network.NetworkCallback;
 import com.example.dishdiary.datasources.network.MealRemoteDataSource;
 
@@ -70,6 +71,13 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
+    public void filterMealsByIngredient(NetworkCallback networkCallback, String ingredient) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("i", ingredient);
+        remoteDataSource.makeNetworkCall(networkCallback, "filter.php", queryParams);
+    }
+
+    @Override
     public void getRandomMeal(NetworkCallback networkCallback) {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("s", "a");
@@ -84,6 +92,11 @@ public class MealsRepositoryImpl implements MealsRepository {
     @Override
     public void getAllAreas(AreaNetworkCallback areaNetworkCallback) {
         remoteDataSource.makeAreaNetworkCall(areaNetworkCallback);
+    }
+
+    @Override
+    public void getAllIngredients(IngredientNetworkCallback ingredientNetworkCallback) {
+        remoteDataSource.makeIngredientNetworkCall(ingredientNetworkCallback);
     }
 
 

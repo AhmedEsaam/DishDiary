@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.dishdiary.model.AreaResponse;
 import com.example.dishdiary.model.CategoryResponse;
+import com.example.dishdiary.model.IngredientResponse;
 import com.example.dishdiary.model.MealsResponse;
 
 import java.util.Map;
@@ -82,6 +83,23 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onFailure(Call<AreaResponse> call, Throwable throwable) {
                 areaNetworkCallback.onAreaFailureResult(throwable.getMessage());
+
+            }
+        });
+    }
+
+    @Override
+    public void makeIngredientNetworkCall(IngredientNetworkCallback ingredientNetworkCallback) {
+        mealService.getIngredientResponse().enqueue(new Callback<IngredientResponse>() {
+            @Override
+            public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
+                Log.i(TAG, "OnIngredientResponse..." + response.body().getIngredients());
+                ingredientNetworkCallback.onIngredientSuccessResult(response.body().getIngredients());
+            }
+
+            @Override
+            public void onFailure(Call<IngredientResponse> call, Throwable throwable) {
+                ingredientNetworkCallback.onIngredientFailureResult(throwable.getMessage());
 
             }
         });

@@ -40,8 +40,12 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter, NetworkCa
 
     @Override
     public void onSuccessResult(List<Meal> meals) {
-        _repo.checkMealExists(meals.get(0));
-        _view.showData(meals.get(0));
+        if (meals.get(0) != null) {
+            _repo.checkMealExists(meals.get(0));
+            _view.showData(meals.get(0));
+        } else {
+            _view.showErrMsg("Meal is not found");
+        }
     }
 
     @Override

@@ -70,7 +70,7 @@ public class ExploreIngredientsAdapter extends RecyclerView.Adapter<ExploreIngre
         Ingredient ingredient = values.get(position);
 
         Glide.with(context).load(ingredientsBaseUrl + ingredient.getStrIngredient() + ".png")
-                .apply(new RequestOptions()//.override(200, 200)
+                .apply(new RequestOptions().override(200, 200)
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .error(R.drawable.ic_launcher_foreground))
                 .into(holder.imgIngredient);

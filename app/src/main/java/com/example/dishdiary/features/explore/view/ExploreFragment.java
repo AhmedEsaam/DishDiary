@@ -66,7 +66,7 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
     private ExploreAreasAdapter exploreAreasAdapter;
     private LinearLayoutManager areaLayoutManager;
 
-    // UI - Areas List
+    // UI - Ingredient List
     private RecyclerView ingredientRecyclerView;
     private ExploreIngredientsAdapter exploreIngredientsAdapter;
     private LinearLayoutManager ingredientLayoutManager;
@@ -172,7 +172,7 @@ public class ExploreFragment extends Fragment implements OnExploreClickListener,
         // List Ingredients
         explorePresenter.getAllIngredients();
 
-        // Categories - UI
+        // Ingredients - UI
         ingredientRecyclerView.setHasFixedSize(true);
         exploreIngredientsAdapter = new ExploreIngredientsAdapter(this.getContext(), new ArrayList<Ingredient>(), this);
         ingredientLayoutManager = new LinearLayoutManager(this.getContext());

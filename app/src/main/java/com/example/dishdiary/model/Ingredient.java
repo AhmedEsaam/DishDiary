@@ -1,5 +1,7 @@
 package com.example.dishdiary.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Ingredient {
@@ -16,11 +18,19 @@ public class Ingredient {
     @SerializedName("strType")
     String strType;
 
+    @Ignore
+    String strMeasure;
+
     public Ingredient(String idIngredient, String strIngredient, String strDescription, String strType) {
         this.idIngredient = idIngredient;
         this.strIngredient = strIngredient;
         this.strDescription = strDescription;
         this.strType = strType;
+    }
+
+    public Ingredient(String strIngredient, String strMeasure) {
+        this.strIngredient = strIngredient;
+        this.strMeasure = strMeasure;
     }
 
     public void setIdIngredient(String idIngredient) {
@@ -51,4 +61,11 @@ public class Ingredient {
         return strType;
     }
 
+    public void setStrMeasure(String strMeasure) {
+        this.strMeasure = strMeasure;
+    }
+
+    public String getStrMeasure() {
+        return strMeasure;
+    }
 }

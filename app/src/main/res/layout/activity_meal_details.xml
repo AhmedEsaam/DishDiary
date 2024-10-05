@@ -32,25 +32,55 @@
             app:titleCollapseMode="scale"
             app:toolbarId="@+id/toolbar">
 
-            <ImageView
-                android:id="@+id/imgView"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="-20dp"
-                android:layout_marginStart="-20dp"
-                android:layout_marginTop="-20dp"
-                android:layout_marginEnd="-20dp"
-                android:paddingLeft="-100dp"
-                android:paddingTop="-100dp"
-                android:paddingRight="-100dp"
-                android:paddingBottom="-100dp"
-                app:layout_collapseMode="parallax"
-                tools:src="@tools:sample/backgrounds/scenic" />
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/imgView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="-20dp"
+                    android:layout_marginStart="-20dp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginEnd="-20dp"
+                    android:paddingLeft="-100dp"
+                    android:paddingTop="-100dp"
+                    android:paddingRight="-100dp"
+                    android:paddingBottom="-100dp"
+                    app:layout_collapseMode="parallax"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+            </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="146dp"
+                android:layout_height="88dp"
                 android:background="@color/transparent"
                 android:backgroundTint="@color/white"
                 app:layout_collapseMode="pin"
@@ -60,6 +90,18 @@
                 app:titleMargin="20dp"
                 app:titleTextAppearance="@style/TextAppearance.AppCompat.Small"
                 app:titleTextColor="@color/white" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

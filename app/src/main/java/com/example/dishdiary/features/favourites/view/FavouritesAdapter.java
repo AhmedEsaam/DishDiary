@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdiary.R;
 import com.example.dishdiary.model.Meal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -81,7 +84,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         holder.txtName.setText(meal.getStrMeal());
         holder.txtCategory.setText(meal.getStrCategory());
         holder.txtArea.setText(meal.getStrArea());
-        holder.btnRemoveFromFav.setText("-");
+        holder.btnRemoveFromFav.setForeground(ContextCompat.getDrawable(context, R.drawable.baseline_bookmark_remove_24));
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +97,15 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         holder.btnRemoveFromFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onRemoveFromFavClick(meal);
+                Snackbar.make(view, "Are you sure?", Snackbar.LENGTH_LONG)
+                        .setAction("Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                listener.onRemoveFromFavClick(meal);
+                                Toast.makeText(view.getContext(), "Meal removed from favourites", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setAnchorView(R.id.btnAddToFav).show();
             }
         });
 

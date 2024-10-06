@@ -6,5 +6,7 @@ public interface MealDetailsPresenter {
     public void getMealById(String mealId);
     public void getIngredient();
     public void addToFav(Meal meal);
+    public void addToStored(Meal meal);
     public void removeFromFav(Meal meal);
+    public void insertDayMealEntry(String day, String mealId);
 }

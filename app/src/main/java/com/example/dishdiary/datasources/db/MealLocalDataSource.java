@@ -16,7 +16,7 @@ public interface MealLocalDataSource {
 
     // Day-Meal Entry Table Entries
     void insertDayMealEntry(DayMealEntry dayMealEntry);
-    void deleteDayMealEntry(DayMealEntry dayMealEntry);
+    void deleteDayMealEntry(String day, String mealId);
     LiveData<List<Meal>> getMealsOfDay(String day);
     LiveData<List<Meal>> getAllPlannedMeals();
 

@@ -132,6 +132,11 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
+    public void deleteDayMealEntry(String day, String mealId) {
+        localDataSource.deleteDayMealEntry(day, mealId);
+    }
+
+    @Override
     public LiveData<List<Meal>> getMealsOfDay(String day) {
         return localDataSource.getMealsOfDay(day);
     }

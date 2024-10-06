@@ -14,4 +14,7 @@
     <color name="gray_3">#D7D7D7</color>
     <color name="gray_4">#FAFAFA</color>
     <color name="gray_5">#EFEFEA</color>
+    <color name="gray_6">#B6B6B6</color>
+    <color name="lottie_background">#F8F4F4</color>
+    <color name="lottie">#F4F4F4</color>
 </resources>

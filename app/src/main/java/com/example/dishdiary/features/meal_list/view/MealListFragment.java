@@ -15,10 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dishdiary.MainActivity;
+import com.example.dishdiary.R;
 import com.example.dishdiary.databinding.FragmentMeallistBinding;
 import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
 import com.example.dishdiary.features.meal_details.view.MealDetailsActivity;
@@ -27,6 +30,7 @@ import com.example.dishdiary.features.meal_list.presenter.MealListPresenterImpl;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,6 +87,9 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // disable Navigation bar
+
         initUI();
 
         // Presenter
@@ -139,7 +146,6 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
     public void onAddToFavClick(Meal meal) {
         mealListPresenter.addToFav(meal);
         mealListAdapter.notifyDataSetChanged();
-//        mealListPresenter.addMealToSunday(meal);
     }
 
     @Override
@@ -151,6 +157,7 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String[] days = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
         final String[] date = new String[1];
 
@@ -158,14 +165,19 @@ public class MealListFragment extends Fragment implements OnMealListClickListene
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 getActivity(),
                 (view, year1, month1, dayOfMonth) -> {
-                    date[0] = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                    calendar.set(year1, month1, dayOfMonth);
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    String dayOfWeekName = days[dayOfWeek - 1];
+                    date[0] = dayOfWeekName;
+//                    date[0] = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+
                     mealListPresenter.addToStored(meal);
                     mealListPresenter.insertDayMealEntry(date[0], meal.getIdMeal());
                     Log.i("Date...", dayOfMonth + "/" + (month1 + 1) + "/" + year1);
                     },
                 year, month, day);
 
-        // Show the DatePickerDialog
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         datePickerDialog.show();
 
     }

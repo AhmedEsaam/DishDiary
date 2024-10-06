@@ -13,7 +13,6 @@ public interface MealListPresenter {
     public void getRandomMeal();
     public void isMealExists(Meal meal);
 
-    //test
     public void insertDayMealEntry(String day, String mealId);
     public LiveData<List<Meal>> getPlannedMeals(String day);
 }

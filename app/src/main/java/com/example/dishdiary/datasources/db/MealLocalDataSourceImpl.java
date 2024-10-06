@@ -84,11 +84,11 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
     }
 
     @Override
-    public void deleteDayMealEntry(DayMealEntry dayMealEntry) {
+    public void deleteDayMealEntry(String day, String mealId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealDAO.deleteDayMealEntry(dayMealEntry);
+                mealDAO.deleteDayMealEntry(day, mealId);
             }
         }).start();
     }

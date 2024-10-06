@@ -24,7 +24,6 @@ public class MealListPresenterImpl implements MealListPresenter, NetworkCallback
     @Override
     public void getAllMeals() { _repo.getAllMeals(this); }
 
-//    public void getAllMeals() { _view.showData(_repo.getMealsOfDay(sun).getQueryValue()); }
 
     @Override
     public void addToFav(Meal meal) {

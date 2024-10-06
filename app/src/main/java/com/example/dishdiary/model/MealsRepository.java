@@ -42,6 +42,7 @@ public interface MealsRepository {
 
     // Local Data Source - Day-Meal Entry
     public void insertDayMealEntry(DayMealEntry dayMealEntry);
+    public void deleteDayMealEntry(String day, String mealId);
     public LiveData<List<Meal>> getMealsOfDay(String day);
     public LiveData<List<Meal>> getPlannedMeals();
 

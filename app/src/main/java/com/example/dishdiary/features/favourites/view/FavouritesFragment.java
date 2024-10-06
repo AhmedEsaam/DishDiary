@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dishdiary.R;
 import com.example.dishdiary.databinding.FragmentSavedBinding;
 import com.example.dishdiary.datasources.db.MealLocalDataSourceImpl;
 import com.example.dishdiary.features.favourites.presenter.FavouritesPresenter;
@@ -27,6 +28,7 @@ import com.example.dishdiary.features.meal_details.view.MealDetailsActivity;
 import com.example.dishdiary.model.Meal;
 import com.example.dishdiary.model.MealsRepositoryImpl;
 import com.example.dishdiary.datasources.network.MealRemoteDataSourceImpl;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;

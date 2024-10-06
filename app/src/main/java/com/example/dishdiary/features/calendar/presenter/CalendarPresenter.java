@@ -14,6 +14,7 @@ public interface CalendarPresenter {
 
     //test
     public void insertDayMealEntry(String day, String mealId);
+    public void deleteDayMealEntry(String day, String mealId);
     public LiveData<List<Meal>> getPlannedMeals();
     public LiveData<List<Meal>> getMealOfDay(String day);
 }

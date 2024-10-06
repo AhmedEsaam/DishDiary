@@ -60,6 +60,11 @@ public class CalendarPresenterImpl implements CalendarPresenter, NetworkCallback
     }
 
     @Override
+    public void deleteDayMealEntry(String day, String mealId) {
+        _repo.deleteDayMealEntry(day, mealId);
+    }
+
+    @Override
     public LiveData<List<Meal>> getPlannedMeals() {
         return _repo.getPlannedMeals();
     }

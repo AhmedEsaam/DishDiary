@@ -23,12 +23,14 @@ import java.util.List;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
     private final Context context;
     private final OnCalendarClickListener listener;
+    private final String day;
     private List<Meal> values;
 
     private static final String TAG = "RecyclerView";
 
-    public CalendarAdapter(Context context, List<Meal> values, OnCalendarClickListener listener) {
+    public CalendarAdapter(Context context, String day, List<Meal> values, OnCalendarClickListener listener) {
         this.context = context;
+        this.day = day;
         this.values = values;
         this.listener = listener;
     }
@@ -41,7 +43,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         private final ImageView imgView;
         private final TextView txtName, txtCategory, txtArea;
         private final Button btnAddToFav;
-        private final FloatingActionButton fabAddToCal;
+        private final FloatingActionButton fabRemoveFromCal;
         private final View layout;
 
 
@@ -53,7 +55,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             txtArea = v.findViewById(R.id.txtArea);
             imgView = v.findViewById(R.id.imgView);
             btnAddToFav = v.findViewById(R.id.btnAddToFav);
-            fabAddToCal = v.findViewById(R.id.fabAddToCal);
+            fabRemoveFromCal = v.findViewById(R.id.fabAddToCal);
         }
     }
 
@@ -82,6 +84,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         holder.txtCategory.setText(meal.getStrCategory());
         holder.txtArea.setText(meal.getStrArea());
         holder.btnAddToFav.setEnabled(!meal.isFav());
+        holder.fabRemoveFromCal.setImageResource(R.drawable.baseline_delete_forever_18);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +100,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         });
 
 
-        holder.fabAddToCal.setOnClickListener(new View.OnClickListener() {
+        holder.fabRemoveFromCal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { listener.onAddToCalendar(meal); }
+            public void onClick(View view) { listener.onRemoveFromCalendar(day, meal); }
         });
 
         Log.i(TAG, "===== ViewHolder Binded ====");

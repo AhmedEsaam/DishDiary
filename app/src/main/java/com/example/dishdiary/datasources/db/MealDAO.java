@@ -36,8 +36,8 @@ public interface MealDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertDayMealEntry(DayMealEntry dayMealEntry);
 
-    @Delete
-    void deleteDayMealEntry(DayMealEntry dayMealEntry);
+    @Query("DELETE FROM day_meal_table WHERE day = :day AND idMeal = :mealId")
+    void deleteDayMealEntry(String day, String mealId);
 
 
     @Query("SELECT meals_table.* FROM meals_table " +

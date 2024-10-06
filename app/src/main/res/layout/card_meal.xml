@@ -43,10 +43,14 @@
 
         <TextView
             android:id="@+id/txtName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgView"
             app:layout_constraintTop_toTopOf="@+id/imgView"
             tools:text="Meal Name" />
@@ -58,6 +62,8 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@android:color/holo_red_light"
+            android:foreground="@drawable/baseline_bookmark_add_24"
+            android:foregroundGravity="clip_horizontal|center"
             android:text="@string/add"
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"

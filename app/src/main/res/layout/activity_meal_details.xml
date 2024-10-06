@@ -119,6 +119,19 @@
         app:rippleColor="@color/gray_1"
         app:srcCompat="@drawable/baseline_bookmark_border_24" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fab_margin2"
+        android:fadeScrollbars="true"
+        app:backgroundTint="@color/white"
+        app:fabSize="auto"
+        app:layout_anchor="@id/toolbar_layout"
+        app:layout_anchorGravity="bottom|end"
+        app:rippleColor="@color/gray_1"
+        app:srcCompat="@drawable/baseline_calendar_month_24" />
+
     <include
         android:id="@+id/scroll"
         layout="@layout/content_scrolling" />
